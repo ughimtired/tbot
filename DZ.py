@@ -1,10 +1,13 @@
 # -----------------------------------------------------------------------
+from telebot import types
+from menuBot import Menu
+
 def dz1(bot, chat_id):
     my_inputStr(bot, chat_id, "Как тебя зовут?", dz1_helper)
 
 
 def dz1_helper(bot, chat_id, name_int):
-    bot.send_message(chat_id, text="привет " + name_int.title())
+    bot.send_message(chat_id, text="привет " + name_int.title(), reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -14,11 +17,11 @@ def dz2(bot, chat_id):
 
 def dz2_helper(bot, chat_id, age_int):
     if 18 > age_int > 10:
-        bot.send_message(chat_id, 'какой ты малыш')
+        bot.send_message(chat_id, 'какой ты малыш', reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
     elif 18 <= age_int <= 100:
-        bot.send_message(chat_id, 'мое уважение, старпер')
+        bot.send_message(chat_id, 'мое уважение, старпер', reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
     else:
-        bot.send_message(chat_id, 'некорректные данные')
+        bot.send_message(chat_id, 'некорректные данные', reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -27,7 +30,7 @@ def dz3(bot, chat_id):
 
 
 def dz3_helper(bot, chat_id, name_int):
-    bot.send_message(chat_id, name_int * 5)
+    bot.send_message(chat_id, name_int * 5, reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -42,9 +45,9 @@ def dz4_helper(bot, chat_id, name_int):
 
 def dz4_helper2(bot, chat_id, age_int):
     if 18 > age_int > 10:
-        bot.send_message(chat_id, 'какой ты малыш')
+        bot.send_message(chat_id, 'какой ты малыш',reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
     if 18 <= age_int <= 100:
-        bot.send_message(chat_id, 'мое уважение, старпер')
+        bot.send_message(chat_id, 'мое уважение, старпер', reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -56,7 +59,7 @@ def dz5_helper(bot, chat_id, name_int):
     bot.send_message(chat_id, text="привет " + name_int)
     bot.send_message(chat_id, text=f"\n" f"смотри как могу {name_int[1::-1]},"
                                    f"\n" f"{name_int[::-1]}"
-                                   f"\n" f"{name_int[::5]}")
+                                   f"\n" f"{name_int[::5]}", reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -66,11 +69,11 @@ def dz6(bot, chat_id):
 
 def dz6_helper(bot, chat_id, otvet):
     if otvet == 6:
-        bot.send_message(chat_id, text="все знают, что ответ будет 8....")
+        bot.send_message(chat_id, text="все знают, что ответ будет 8....", reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
     elif otvet == 8:
-        bot.send_message(chat_id, text="молодец")
+        bot.send_message(chat_id, text="молодец", reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
     else:
-        bot.send_message(chat_id, text="тяжелый случай")
+        bot.send_message(chat_id, text="тяжелый случай", reply_markup=Menu.getMenu(chat_id, "ДЗ").markup)
 
 
 # -----------------------------------------------------------------------
@@ -82,7 +85,7 @@ def my_input(bot, chat_id, txt, ResponseHandler):
 
 # -----------------------------------------------------------------------
 def my_inputInt(bot, chat_id, txt, ResponseHandler):
-    message = bot.send_message(chat_id, text=txt)
+    message = bot.send_message(chat_id, text=txt, reply_markup=types.ReplyKeyboardRemove())
     bot.register_next_step_handler(message, my_inputInt_SecondPart, botQuestion=bot, txtQuestion=txt,
                                    ResponseHandler=ResponseHandler)
     # bot.register_next_step_handler(message, my_inputInt_return, bot, txt, ResponseHandler)  # то-же самое, но короче
@@ -105,7 +108,7 @@ def my_inputInt_SecondPart(message, botQuestion, txtQuestion, ResponseHandler):
 
 # -----------------------------------------------------------------------
 def my_inputStr(bot, chat_id, txt, ResponseHandler):
-    message = bot.send_message(chat_id, text=txt)
+    message = bot.send_message(chat_id, text=txt, reply_markup=types.ReplyKeyboardRemove())
     bot.register_next_step_handler(message, my_inputStr_SecondPart, botQuestion=bot, txtQuestion=txt,
                                    ResponseHandler=ResponseHandler)
 

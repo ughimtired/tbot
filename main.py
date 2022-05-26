@@ -10,6 +10,7 @@ import menuBot
 from menuBot import Menu, Users  # в этом модуле есть код, создающий экземпляры классов описывающих моё меню
 import DZ  # домашнее задание от первого урока
 import SECRET  # секретные ключи, пароли
+import time
 
 bot = telebot.TeleBot(SECRET.TELEGRAM_TOKEN)  # Создаем экземпляр бота
 
@@ -181,8 +182,8 @@ def get_text_messages(message):
         elif ms_text == "Прислать анекдот":
             bot.send_message(chat_id, text=get_anekdot())
 
-        elif ms_text == "Прислать палитру":
-            bot.send_message(chat_id, text=get_colors())
+        elif ms_text == "Прислать подкат":
+            bot.send_message(chat_id, text=get_pickup())
 
         elif ms_text == "Прислать новости":
             bot.send_message(chat_id, text=get_news())
@@ -391,12 +392,12 @@ def get_anekdot():
     else:
         return ""
 #webbrowser
-def get_colors():
+def get_pickup():
     array_color = []
-    reg_color = requests.get('http://colormind.io')
-    if reg_color.status_code == 200:
+    reg_color = requests.get('https://www.generatormix.com/random-pick-up-lines')
+    if reg_color.status_code == 200 :
         soup = bs4.BeautifulSoup(reg_color.text, "html.parser")
-        result_find = soup.select('.colors')
+        result_find = soup.select('.col-12.tile-block-inner.marg-top.first')
         for result in result_find:
             array_color.append(result.getText().strip())
     if len(array_color) > 0:
@@ -430,7 +431,6 @@ def get_foxURL():
         url = r_json['image']
         # url.split("/")[-1]
     return url
-
 
 # -----------------------------------------------------------------------
 def get_dogURL():
