@@ -148,6 +148,8 @@ def get_text_messages(message):
             bot.send_message(chat_id, text=text_game)
 
         elif subMenu.name == "Игра больше-меньше":
+            bot.send_message(chat_id, text='Правила игры "больше-меньше":\n'
+                                           'перед вами карта из колоды состоящая из 52 карт. Вам нужно отгадать, будет ли следующая карты номиналом больше или меньше')
             gameML = botGames.newGame(chat_id, botGames.GameMoreLess())
             text_game = gameML.get_cards(1)
             bot.send_media_group(chat_id, media=getMediaCards(gameML))  # получим и отпим изображения карт
@@ -184,9 +186,6 @@ def get_text_messages(message):
 
         elif ms_text == "Прислать подкат":
             bot.send_message(chat_id, text=get_pickup())
-
-        elif ms_text == "Прислать новости":
-            bot.send_message(chat_id, text=get_news())
 
         elif ms_text == "Прислать фильм":
             send_film(chat_id)
@@ -391,38 +390,22 @@ def get_anekdot():
         return array_anekdots[0]
     else:
         return ""
-#webbrowser
+
 def get_pickup():
-    array_color = []
-    reg_color = requests.get('https://www.generatormix.com/random-pick-up-lines')
-    if reg_color.status_code == 200 :
-        soup = bs4.BeautifulSoup(reg_color.text, "html.parser")
+    array_flirt = []
+    reg_flirt = requests.get('https://www.generatormix.com/random-pick-up-lines')
+    if reg_flirt.status_code == 200 :
+        soup = bs4.BeautifulSoup(reg_flirt.text, "html.parser")
         result_find = soup.select('.col-12.tile-block-inner.marg-top.first')
         for result in result_find:
-            array_color.append(result.getText().strip())
-    if len(array_color) > 0:
-        return array_color[0]
+            array_flirt.append(result.getText().strip())
+    if len(array_flirt) > 0:
+        return array_flirt[0]
     else:
         return ""
 
 # -----------------------------------------------------------------------
-def get_news():
-    array_anekdots = []
-    req_anek = requests.get('https://www.banki.ru/news/lenta')
-    if req_anek.status_code == 200:
-        soup = bs4.BeautifulSoup(req_anek.text, "html.parser")
-        result_find = soup.select('.doFpcq')
-        for result in result_find:
-            print(result)
 
-            # array_anekdots.append(result.getText().strip())
-    if len(array_anekdots) > 0:
-        return array_anekdots[0]
-    else:
-        return ""
-
-
-# -----------------------------------------------------------------------
 def get_foxURL():
     url = ""
     req = requests.get('https://randomfox.ca/floof/')
